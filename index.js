@@ -1,25 +1,23 @@
-// connectionDB.js
+const express =  require("express");
+const connectionDB = require("./config/db");
+const seatsRoutes = require("./routes/seats.routes")
+const dotenv = require("dotenv");
 
-const mongoose = require("mongoose");
-const Seat = require("./models/seats.model");
-require('dotenv').config();  // Ensure environment variables are loaded
+const cors = require('cors');
 
-const connectionDB = async () => {
-  try {
-    const conn = await mongoose.connect(
-      process.env.MONGODB_URL,  // This must be defined in your .env file
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    );
+const app = express();
+app.use(cors());
+dotenv.config();
+connectionDB();
+app.use(express.json());
 
-    console.log("MongoDB connected ", conn.connection.host);
+app.get("/",(req, res)=>{
+    console.log("unstop assignment");
+})
 
-  } catch (error) {
-    console.log("MongoDB connection error ", error.message);
-    process.exit();
-  }
-};
 
-module.exports = connectionDB;
+//  seats routes
+app.use("/api/seats", seatsRoutes);
+
+const port = process.env.PORT || 8080;
+app.listen(port, ()=>{ console.log(" server running at port = ", port) });

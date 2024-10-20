@@ -1,7 +1,7 @@
 // connectionDB.js
 
 const mongoose = require("mongoose");
-const Seat = require("../models/seats.model");
+const Seat = require("./models/seats.model");
 
 const connectionDB = async () => {
   try {
